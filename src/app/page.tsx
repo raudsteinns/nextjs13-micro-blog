@@ -1,5 +1,5 @@
 import { ArticleList } from "./components/ArticleList";
-import { getAllArtcles } from "./blogAPI";
+// import { getAllArtcles } from "./blogAPI";
 import { supabase } from "@/utils/supabaseClient";
 
 export default async function Home() {

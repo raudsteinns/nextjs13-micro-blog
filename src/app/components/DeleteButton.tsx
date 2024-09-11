@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { deleteArticle } from "../blogAPI";
+// import { deleteArticle } from "../blogAPI";
 import { useRouter } from "next/navigation";
 
 type DeleteButtonProps = {
@@ -12,7 +12,29 @@ const DeleteButton = ({ id }: DeleteButtonProps) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    await deleteArticle(id);
+    // await deleteArticle(id);
+
+    const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`;
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "削除に失敗しました");
+      }
+
+      const data = await res.json();
+      console.log("削除成功:", data);
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error("削除APIエラー:", error);
+    }
+
     router.push("/");
     router.refresh();
   };

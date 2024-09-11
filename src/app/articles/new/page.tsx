@@ -21,7 +21,7 @@ const CreateBlogPage = () => {
     const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/posts/`;
 
     try {
-      const response = await fetch(API_URL, {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,18 +29,18 @@ const CreateBlogPage = () => {
         body: JSON.stringify({ id, title, content }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
+      if (!res.ok) {
+        const errorData = await res.json();
         throw new Error(errorData.error || "投稿に失敗しました");
       }
 
-      const data = await response.json();
+      const data = await res.json();
       console.log("投稿成功:", data);
 
       router.push("/");
       router.refresh();
     } catch (error) {
-      console.error("APIエラー:", error);
+      console.error("投稿APIエラー:", error);
     } finally {
       setIsLoading(false);
     }
