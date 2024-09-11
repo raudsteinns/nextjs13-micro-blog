@@ -4,9 +4,6 @@ import { supabase } from "@/utils/supabaseClient";
 import { Article } from "./type/types";
 
 export default async function Home() {
-  // const articles = await getAllArtcles(); // json server用API
-  // console.log(supabase);
-
   const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/posts`;
 
   let articles: Article[] = [];
@@ -15,7 +12,13 @@ export default async function Home() {
     if (!res.ok) {
       throw new Error(`API request failed with status ${res.status}`);
     }
-    articles = await res.json();
+    const data = await res.json();
+
+    if (data && Array.isArray(data)) {
+      articles = data;
+    } else {
+      console.warn("Unexpected API response format");
+    }
   } catch (error) {
     console.error("Error fetching articles:", error);
   }
