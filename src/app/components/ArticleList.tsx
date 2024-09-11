@@ -7,6 +7,9 @@ type ArticleListProps = {
 };
 
 export const ArticleList = ({ articles }: ArticleListProps) => {
+  if (!articles || articles.length === 0) {
+    return <p>記事がありません。</p>;
+  }
   return (
     <div>
       {articles.map((article) => (
