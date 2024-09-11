@@ -10,17 +10,17 @@ export default async function Home() {
   try {
     const res = await fetch(`${API_URL}`, { cache: "no-store" });
     if (!res.ok) {
-      throw new Error(`API request failed with status ${res.status}`);
+      throw new Error(`APIリクエストに失敗しました: ${res.status}`);
     }
     const data = await res.json();
 
     if (data && Array.isArray(data)) {
       articles = data;
     } else {
-      console.warn("Unexpected API response format");
+      console.warn("予期しないAPI応答形式");
     }
   } catch (error) {
-    console.error("Error fetching articles:", error);
+    console.error("記事の取得に失敗しました:", error);
   }
 
   return (
