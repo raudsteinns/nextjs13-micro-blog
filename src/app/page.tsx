@@ -1,6 +1,7 @@
 import { ArticleList } from "./components/ArticleList";
 // import { getAllArtcles } from "./blogAPI";
 import { supabase } from "@/utils/supabaseClient";
+import { Article } from "./type/types";
 
 export default async function Home() {
   // const articles = await getAllArtcles(); // json server用API
@@ -8,7 +9,7 @@ export default async function Home() {
 
   const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/posts`;
 
-  let articles;
+  let articles: Article[] = [];
   try {
     const res = await fetch(`${API_URL}`, { cache: "no-store" });
     if (!res.ok) {
@@ -16,7 +17,7 @@ export default async function Home() {
     }
     articles = await res.json();
   } catch (error) {
-    articles = [];
+    console.error("Error fetching articles:", error);
   }
 
   return (
